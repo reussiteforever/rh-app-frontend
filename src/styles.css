@@ -12,10 +12,14 @@
 
 /*
 "styles": [
-  "src/styles.css",
-  "src/assets/css/style.css",
-  "node_modules/line-awesome/dist/line-awesome/css/line-awesome.css",
-  "node_modules/morris.js/morris.css"
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "node_modules/font-awesome/css/font-awesome.min.css",
+  "src/assets/css/line-awesome.min.css",
+  "node_modules/morris.js/morris.css",
+  "src/assets/css/dataTables.bootstrap4.min.css",
+  "src/assets/css/select2.min.css",
+  "src/assets/css/bootstrap-datetimepicker.min.css",
+  "src/styles.css"
 ],
 "scripts": [
   "node_modules/jquery/dist/jquery.min.js",
