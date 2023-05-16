@@ -6,7 +6,8 @@ import { ContratComponent } from './contrat/contrat.component';
 import { StageComponent } from './stage/stage.component';
 
 const routes: Routes = [
-  {path:"", component:LoginComponent},
+  // {path:"", component:LoginComponent},
+  {path:"", component:ContratComponent},
   {path:"dashboard", component:DashboardComponent},
   {path:"contrat", component:ContratComponent},
   {path:"stage", component:StageComponent},
