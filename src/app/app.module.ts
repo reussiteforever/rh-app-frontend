@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ContratComponent } from './contrat/contrat.component';
 import { StageComponent } from './stage/stage.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,11 +19,12 @@ import { StageComponent } from './stage/stage.component';
     DashboardComponent,
     SidebarComponent,
     ContratComponent,
-    StageComponent
+    StageComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
