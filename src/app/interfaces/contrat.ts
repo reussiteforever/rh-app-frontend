@@ -1,14 +1,13 @@
 import { Fonction } from "./fonction";
 import { Personne } from "./personne";
 import { Service } from "./service";
-import { TypeStage } from "./typestage";
+import { TypeContrat } from "./typecontrat";
 
-export interface Stage {
+export interface Contrat {
     id: number,
     dateDebut: Date,
     dateFin: Date,
-    responsableStage: string,
-    idTypeStage: TypeStage,
+    idTypeContrat: TypeContrat,
     idPersonne: Personne,
     idService: Service,
     idFonction: Fonction,
