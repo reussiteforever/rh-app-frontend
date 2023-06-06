@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { StageService } from '../services/stage/stage.service';
+import { Stage } from '../interfaces/stage';
 
 @Component({
   selector: 'app-stage',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StageComponent implements OnInit {
 
-  constructor() { }
+  public stages: Stage[] = [];
+
+  constructor(private stageService: StageService) { }
 
   ngOnInit(): void {
+    this.stageService.getAllStages().subscribe({
+      next: (value) => {
+        this.stages = value;
+        console.log("list stages: "+ value[1].responsableStage);
+      },
+      error: (value)=>{
+        console.log(value);
+      }
+    });
   }
 
 }

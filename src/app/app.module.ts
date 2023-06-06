@@ -10,6 +10,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ContratComponent } from './contrat/contrat.component';
 import { StageComponent } from './stage/stage.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SiteComponent } from './site/site.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     SidebarComponent,
     ContratComponent,
     StageComponent,
+    SiteComponent,
   ],
   imports: [
     BrowserModule,

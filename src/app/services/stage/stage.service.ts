@@ -10,13 +10,14 @@ export class StageService {
 
   private listOfStages!: Observable<Stage[]>;
 
-  private stageUrl = 'localhost:3000/api/stage';  // URL to backend api
+  private stageUrl = 'http://localhost:3000/api/stage';  // URL to backend api
 
   constructor(private http: HttpClient) { }
 
   /**
    * 
    * @returns La liste de tous les stages
+   * DESKTOP-IV3TUO8
    */
   public getAllStages(): Observable<Stage[]>{
     this.listOfStages = this.http.get<Stage[]>(this.stageUrl);
