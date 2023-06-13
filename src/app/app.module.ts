@@ -12,6 +12,7 @@ import { StageComponent } from './stage/stage.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SiteComponent } from './site/site.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DepartementComponent } from './departement/departement.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ContratComponent,
     StageComponent,
     SiteComponent,
+    DepartementComponent,
   ],
   imports: [
     BrowserModule,
