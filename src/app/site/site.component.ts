@@ -92,6 +92,13 @@ export class SiteComponent implements OnInit {
     };
     this.siteService.updateSite(siteId,this.site).subscribe({
       next: ()=>{
+        //Update of the selected item
+        this.sites.map((e) => {
+          if(e.id == siteId){
+            e.codeSite = this.site.codeSite;
+            e.libelleSite = this.site.libelleSite;
+          }
+        });
         //refresh the list of sites
         console.log("Opération réussie!");
         //reset form fields
