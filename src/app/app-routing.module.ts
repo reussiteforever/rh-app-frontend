@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ContratComponent } from './contrat/contrat.component';
 import { StageComponent } from './stage/stage.component';
 import { SiteComponent } from './site/site.component';
+import { DepartementComponent } from './departement/departement.component';
 
 const routes: Routes = [
   // {path:"", component:LoginComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path:"contrat", component:ContratComponent},
   {path:"stage", component:StageComponent},
   {path:"site", component:SiteComponent},
+  {path:"departement", component:DepartementComponent},
 ];
 
 @NgModule({
