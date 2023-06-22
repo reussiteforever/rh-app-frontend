@@ -37,16 +37,16 @@ export class SiteComponent implements OnInit {
       codeSiteField: ['', Validators.required],
       libelleSiteField: ['', Validators.required]
     });
-    this.handleGetAllSites();
+    this.handleGetAllSites(this.sites);
   }
 
   get codeSiteField(){return this.editSiteFormGroup.get('codeSiteField');}
   get libelleSiteField(){return this.editSiteFormGroup.get('libelleSiteField');}
 
-  public handleGetAllSites(){
+  public handleGetAllSites(listeSite:Site[]){
     this.siteService.getAllSites().subscribe({
       next: (value) => {
-        this.sites = value;
+        listeSite = value;
       },
       error: (value)=>{
         console.log(value);

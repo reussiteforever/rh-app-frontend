@@ -46,7 +46,7 @@ export class DepartementService {
   /**
    * @returns Mettre à jour un nouveau departement
    */
-  public updatedepartement(id:number,departement:Departement): Observable<Departement>{
+  public updateDepartement(id:number,departement:Departement): Observable<Departement>{
     return this.http.patch<Departement>(
       `http://localhost:3000/api/departement/${id}`,
       departement,

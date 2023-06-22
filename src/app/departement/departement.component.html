@@ -1,1 +1,235 @@
-<p>departement works!</p>
+<div class="main-wrapper">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+
+    <div class="page-wrapper">
+			
+        <!-- Page Content -->
+        <div class="content container-fluid">
+        
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">departements</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Tableau de bord</a></li>
+                            <li class="breadcrumb-item active">Liste des departements</li>
+                        </ul>
+                    </div>
+                    <div class="col-auto float-right ml-auto">
+                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_expense"><i class="fa fa-plus"></i> Ajouter departement</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Header -->
+            
+            <!-- Search Filter -->
+            <div class="row filter-row">
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <div class="form-group form-focus">
+                        <input type="text" class="form-control floating">
+                        <label class="focus-label">Item Name</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <div class="form-group form-focus select-focus">
+                        <select class="select floating"> 
+                            <option> -- Choisir -- </option>
+                            <option>Loren Gatlin</option>
+                            <option>Tarah Shropshire</option>
+                        </select>
+                        <label class="focus-label">Purchased By</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12"> 
+                    <div class="form-group form-focus select-focus">
+                        <select class="select floating"> 
+                            <option> -- Choisir -- </option>
+                            <option> Cash </option>
+                            <option> Cheque </option>
+                        </select>
+                        <label class="focus-label">Paid By</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <div class="form-group form-focus">
+                        <div class="cal-icon">
+                            <input class="form-control floating datetimepicker" type="text">
+                        </div>
+                        <label class="focus-label">From</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <div class="form-group form-focus">
+                        <div class="cal-icon">
+                            <input class="form-control floating datetimepicker" type="text">
+                        </div>
+                        <label class="focus-label">To</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <a href="#" class="btn btn-success btn-block"> Rechercher </a>  
+                </div>     
+            </div>
+            <!-- /Search Filter -->
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped custom-table mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th>Code departement</th>
+                                    <th>Libelle departement</th>
+                                    <th class="text-center">Site</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let departement of departements">
+                                    <td>
+                                        {{departement.codeDepartement}}
+                                    </td>
+                                    <td>{{departement.libelleDepartement}}</td> 
+                                    <td class="text-center">
+                                        {{departement.Site.libelleSite}}
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a (click)="getDepartementId(departement.id)"class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_expense"><i class="fa fa-pencil m-r-5"></i> Modifier</a>
+                                                <a (click)="getDepartementId(departement.id)" class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_expense"><i class="fa fa-trash-o m-r-5"></i> Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Content -->
+        
+        <!-- Add departement Modal -->
+        <div id="add_expense" class="modal custom-modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ajouter departement</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="addDepartementFormGroup" (ngSubmit)="handleCreateDepartement()">
+                            <!-- OUR FORM -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="codeDepartement">Code departement</label>
+                                        <input id="codeDepartement" placeholder="Saisir le code du departement" class="form-control" type="text"
+                                        formControlName="codeDepartementField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="libelleDepartement">Libellé departement</label>
+                                        <input id="libelleDepartement" placeholder="Saisir le libellé du departement" class="form-control" type="text"
+                                        formControlName="libelleDepartementField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="site">Choisissez le Site d'appartenance</label>
+                                        <select id="site" class="form-control select" (change)="changeSite()"
+                                        formControlName="siteField">
+                                            <option *ngFor="let site of listeSites" [ngValue]="site">{{site.libelleSite}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit-section">
+                                <button class="btn btn-primary submit-btn" type="submit">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Add departement Modal -->
+        
+        <!-- Edit departement Modal -->
+        <div id="edit_expense" class="modal custom-modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifier departement</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="editDepartementFormGroup" (ngSubmit)="handleUpdateDepartement(departementID)">
+                            <!-- OUR FORM -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="codeDepartement">Code departement</label>
+                                        <input id="codeDepartement" placeholder="Saisir le code du departement" class="form-control" type="text"
+                                        formControlName="codeDepartementField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="libelleDepartement">Libellé departement</label>
+                                        <input id="libelleDepartement" placeholder="Saisir le libellé du departement" class="form-control" type="text"
+                                        formControlName="libelleDepartementField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit-section">
+                                <button class="btn btn-primary submit-btn" type="submit">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Edit departement Modal -->
+
+        <!-- Delete departement Modal -->
+        <div class="modal custom-modal fade" id="delete_expense" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-header">
+                            <h3>Supprimer departement</h3>
+                            <p>Êtes-vous sûr de vouloir supprimer?</p>
+                        </div>
+                        <div class="modal-btn delete-action">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a (click)="handleDeleteDepartement(departementID)" data-dismiss="modal" class="btn btn-primary continue-btn">Supprimer</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Annuler</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Delete departement Modal -->
+        
+    </div>
+</div>
