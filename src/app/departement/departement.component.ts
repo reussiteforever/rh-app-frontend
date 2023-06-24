@@ -22,8 +22,8 @@ export class DepartementComponent implements OnInit {
   departement: any={} ;
   listeSites!: Site[]; 
 
-  addDepartementFormGroup!: FormGroup;
-  editDepartementFormGroup!: FormGroup;
+  // addDepartementFormGroup!: FormGroup;
+  // editDepartementFormGroup!: FormGroup;
 
   constructor(
     private departementService: DepartementService,
@@ -32,30 +32,43 @@ export class DepartementComponent implements OnInit {
     private siteService: SiteService
     ) { }
 
+  //initialization of Departement add form as a Reactive-Form
+  addDepartementFormGroup = this.fb.group({
+    codeDepartementField: ['', Validators.required],
+    libelleDepartementField: ['', Validators.required],
+    siteField: ['', Validators.required]
+  });
+
+  editDepartementFormGroup = this.fb.group({
+    codeDepartementField: ['', Validators.required],
+    libelleDepartementField: ['', Validators.required],
+    siteField: ['', Validators.required]
+  });
+
   ngOnInit(): void {
-    //initialization of Departement add form as a Reactive-Form
-    this.addDepartementFormGroup = this.fb.group({
-      codeDepartementField: ['', Validators.required],
-      libelleDepartementField: ['', Validators.required],
-      siteField: ['', Validators.required]
-    });
-    this.editDepartementFormGroup = this.fb.group({
-      codeDepartementField: ['', Validators.required],
-      libelleDepartementField: ['', Validators.required],
-      siteField: ['', Validators.required]
-    });
     //Get list of Departements
     this.handleGetAllDepartements();
     //Get list of Sites
     this.siteService.getAllSites().subscribe((response)=>{this.listeSites = response;});
   }
 
+  // Access formcontrols getter
   get codeDepartementField(){return this.editDepartementFormGroup.get('codeDepartementField');}
   get libelleDepartementField(){return this.editDepartementFormGroup.get('libelleDepartementField');}
+  get siteField() {
+    return this.addDepartementFormGroup.get('siteField');
+  }
+
+
+  changeSite(e:any){
+    this.siteField?.setValue(e.target.value, {
+      onlySelf: true
+    });
+  }
+
+  
 
   public handleGetAllDepartements(){
-
-    
     this.departementService.getAllDepartements().subscribe({
       next: (value) => {
         this.departements = value;
@@ -66,8 +79,17 @@ export class DepartementComponent implements OnInit {
     });
   }
 
-  public getDepartementId(departementId: number): void{
+  public getDepartement(departementId: number): void{
     this.departementID = departementId;
+    this.departementService.getOneDepartement(departementId).subscribe((response)=>{
+      this.editDepartementFormGroup.setValue(
+        {
+          codeDepartementField : response.codeDepartement,
+          libelleDepartementField: response.libelleDepartement,
+          siteField: response.SiteId
+        }
+      )
+    });
   }
 
   public handleDeleteDepartement(DepartementId: number): void{
@@ -81,38 +103,37 @@ export class DepartementComponent implements OnInit {
 
   public handleCreateDepartement(): void {
     //Creation of the Departement Object to persist
-    var val =this.addDepartementFormGroup.value.siteField;;
     this.departement = {
       codeDepartement : this.addDepartementFormGroup.value.codeDepartementField,
       libelleDepartement: this.addDepartementFormGroup.value.libelleDepartementField,
-      SiteId: 5
-    };
-    console.log(val);
-    
-    // this.departementService.createDepartement(this.departement).subscribe({
-    //   next: (value)=>{
-    //     //refresh the list of departements
-    //     this.departements = [value].concat(this.departements);
-    //     console.log("Opération réussie!");
-    //     //reset form fields
-    //     this.addDepartementFormGroup.reset();
-    //   }
-    // });
+      SiteId: this.addDepartementFormGroup.value.siteField
+    };    
+    this.departementService.createDepartement(this.departement).subscribe({
+      next: (value)=>{
+        //refresh the list of departements
+        this.departements = [value].concat(this.departements);
+        console.log("Opération réussie!");
+        //reset form fields
+        this.addDepartementFormGroup.reset();
+      }
+    });
   }
 
   public handleUpdateDepartement(departementId:number): void {
     //Creation of the Departement Object to persist
     this.departement = {
       codeDepartement : this.editDepartementFormGroup.value.codeDepartementField,
-      libelleDepartement: this.editDepartementFormGroup.value.libelleDepartementField
+      libelleDepartement: this.editDepartementFormGroup.value.libelleDepartementField,
+      SiteId: this.editDepartementFormGroup.value.siteField
     };
     this.departementService.updateDepartement(departementId,this.departement).subscribe({
       next: ()=>{
         //Update of the selected item
         this.departements.map((e) => {
           if(e.id == departementId){
-            e.codeDepartement = this.departement.codd;
+            e.codeDepartement = this.departement.codeDepartement;
             e.libelleDepartement = this.departement.libelleDepartement;
+            e.SiteId = this.departement.SiteId;
           }
         });
         //refresh the list of departements
@@ -123,13 +144,4 @@ export class DepartementComponent implements OnInit {
     });
   }
 
-  public changeSite(){
-    let site: Site = this.addDepartementFormGroup.value.siteField;
-		console.log('site Changed: ' + site.id);
-  }
-
-  // Access formcontrols getter
-  get siteField() {
-    return this.addDepartementFormGroup.get('siteField');
-  }
 }

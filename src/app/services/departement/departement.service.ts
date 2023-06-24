@@ -16,6 +16,14 @@ export class DepartementService {
   private departementUrl = 'http://localhost:3000/api/departement';  // URL to backend api
 
   constructor(private http: HttpClient) { }
+
+  /**
+   * 
+   * @returns La liste de tous les departements
+   */
+  public getOneDepartement(id:number): Observable<Departement>{
+    return this.http.get<Departement>(this.departementUrl+`/${id}`);
+  }
   
   /**
    * 
@@ -29,7 +37,7 @@ export class DepartementService {
    * @returns Supprimer un departement
    */
   public deleteDepartement(id:number): Observable<any>{
-    return this.http.patch(`http://localhost:3000/api/departement/${id}/state/0`,{});
+    return this.http.patch(this.departementUrl+`/${id}/state/0`,{});
   }
 
   /**
@@ -37,7 +45,7 @@ export class DepartementService {
    */
   public createDepartement(departement: Departement): Observable<Departement>{
     return this.http.post<Departement>(
-      'http://localhost:3000/api/departement',
+      this.departementUrl,
       departement,
       httpOptions
     );
@@ -48,7 +56,7 @@ export class DepartementService {
    */
   public updateDepartement(id:number,departement:Departement): Observable<Departement>{
     return this.http.patch<Departement>(
-      `http://localhost:3000/api/departement/${id}`,
+      this.departementUrl+`/${id}`,
       departement,
       httpOptions
     );

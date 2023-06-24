@@ -54,8 +54,16 @@ export class SiteComponent implements OnInit {
     });
   }
 
-  public getSiteId(siteId: number): void{
+  public getSite(siteId: number): void{
     this.siteID = siteId;
+    this.siteService.getOneSite(siteId).subscribe((response)=>{
+      this.editSiteFormGroup.setValue(
+        {
+          codeSiteField : response.codeSite,
+          libelleSiteField: response.libelleSite
+        }
+      )
+    });
   }
 
   public handleDeleteSite(siteId: number): void{

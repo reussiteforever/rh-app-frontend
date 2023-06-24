@@ -26,10 +26,18 @@ export class SiteService {
   }
 
   /**
+   * 
+   * @returns La liste de tous les sites
+   */
+  public getOneSite(id:number): Observable<Site>{
+    return this.http.get<Site>(this.siteUrl+`/${id}`);
+  }
+
+  /**
    * @returns Supprimer un site
    */
   public deleteSite(id:number): Observable<any>{
-    return this.http.patch(`http://localhost:3000/api/site/${id}/state/0`,{});
+    return this.http.patch(this.siteUrl+`/${id}/state/0`,{});
   }
 
   /**
@@ -37,7 +45,7 @@ export class SiteService {
    */
   public createSite(site: Site): Observable<Site>{
     return this.http.post<Site>(
-      'http://localhost:3000/api/site',
+      this.siteUrl,
       site,
       httpOptions
     );
@@ -48,7 +56,7 @@ export class SiteService {
    */
   public updateSite(id:number,site:Site): Observable<Site>{
     return this.http.patch<Site>(
-      `http://localhost:3000/api/site/${id}`,
+      this.siteUrl+`/${id}`,
       site,
       httpOptions
     );

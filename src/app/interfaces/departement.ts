@@ -4,6 +4,6 @@ export interface Departement {
     id: number,
     codeDepartement: string,
     libelleDepartement: string,
-    idSite: Site,
+    SiteId: string,
     state: number
 }
