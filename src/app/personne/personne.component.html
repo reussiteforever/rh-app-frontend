@@ -1,1 +1,294 @@
-<p>personne works!</p>
+<div class="main-wrapper">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+
+    <div class="page-wrapper">
+			
+        <!-- Page Content -->
+        <div class="content container-fluid">
+        
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">Personnes</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Tableau de bord</a></li>
+                            <li class="breadcrumb-item active">Liste des Personnes</li>
+                        </ul>
+                    </div>
+                    <div class="col-auto float-right ml-auto">
+                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_expense"><i class="fa fa-plus"></i> Ajouter Personne</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Header -->
+            
+            <!-- Search Filter -->
+            <div class="row filter-row">
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <div class="form-group form-focus">
+                        <input type="text" class="form-control floating">
+                        <label class="focus-label">Item Name</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <div class="form-group form-focus select-focus">
+                        <select class="select floating"> 
+                            <option> -- Choisir -- </option>
+                            <option>Loren Gatlin</option>
+                            <option>Tarah Shropshire</option>
+                        </select>
+                        <label class="focus-label">Purchased By</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12"> 
+                    <div class="form-group form-focus select-focus">
+                        <select class="select floating"> 
+                            <option> -- Choisir -- </option>
+                            <option> Cash </option>
+                            <option> Cheque </option>
+                        </select>
+                        <label class="focus-label">Paid By</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <div class="form-group form-focus">
+                        <div class="cal-icon">
+                            <input class="form-control floating datetimepicker" type="text">
+                        </div>
+                        <label class="focus-label">From</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <div class="form-group form-focus">
+                        <div class="cal-icon">
+                            <input class="form-control floating datetimepicker" type="text">
+                        </div>
+                        <label class="focus-label">To</label>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
+                    <a href="#" class="btn btn-success btn-block"> Rechercher </a>  
+                </div>     
+            </div>
+            <!-- /Search Filter -->
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped custom-table mb-0 datatable">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Matricule</th>
+                                    <th class="text-center">Nom</th>
+                                    <th class="text-center">Prénoms</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Téléphone</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let Personne of Personnes">
+                                    <td class="text-center">
+                                        {{Personne.matricule}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{Personne.nom}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{Personne.prenom}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{Personne.email}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{Personne.telephone}}
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a (click)="getPersonne(Personne.id)"class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_expense"><i class="fa fa-pencil m-r-5"></i>Modifier</a>
+                                                <a (click)="getPersonne(Personne.id)" class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_expense"><i class="fa fa-trash-o m-r-5"></i>Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Content -->
+        
+        <!-- Add Personne Modal -->
+        <div id="add_expense" class="modal custom-modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ajouter Personne</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="addPersonneFormGroup" (ngSubmit)="handleCreatePersonne()">
+                            <!-- OUR FORM -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nom">Nom</label>
+                                        <input id="nom" placeholder="Saisir un nom" class="form-control" type="text"
+                                        formControlName="nomField">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="prenom">Prénom</label>
+                                        <input id="prenom" placeholder="Saisir un prénom" class="form-control" type="text"
+                                        formControlName="prenomField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input id="email" placeholder="Saisir un email" class="form-control" type="email"
+                                        formControlName="emailField">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="telephone">Téléphone</label>
+                                        <input id="telephone" placeholder="Saisir un numéro de téléphone" class="form-control" type="text"
+                                        formControlName="telephoneField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="matricule">Matricule</label>
+                                        <input id="matricule" placeholder="Saisir un matricule" class="form-control" type="text"
+                                        formControlName="matriculeField">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="adresse">Adresse</label>
+                                        <input id="adresse" placeholder="Saisir une adresse géographique" class="form-control" type="text"
+                                        formControlName="adresseField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit-section">
+                                <button class="btn btn-primary submit-btn" type="submit">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Add Personne Modal -->
+        
+        <!-- Edit Personne Modal -->
+        <div id="edit_expense" class="modal custom-modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifier Personne</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="editPersonneFormGroup" (ngSubmit)="handleUpdatePersonne(PersonneID)">
+                            <!-- OUR FORM -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nom">Nom</label>
+                                        <input id="nom" placeholder="Saisir un nom" class="form-control" type="text"
+                                        formControlName="nomField">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="prenom">Prénom</label>
+                                        <input id="prenom" placeholder="Saisir un prénom" class="form-control" type="text"
+                                        formControlName="prenomField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input id="email" placeholder="Saisir un email" class="form-control" type="email"
+                                        formControlName="emailField">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="telephone">Téléphone</label>
+                                        <input id="telephone" placeholder="Saisir un numéro de téléphone" class="form-control" type="text"
+                                        formControlName="telephoneField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="matricule">Matricule</label>
+                                        <input id="matricule" placeholder="Saisir un matricule" class="form-control" type="text"
+                                        formControlName="matriculeField">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="adresse">Adresse</label>
+                                        <input id="adresse" placeholder="Saisir une adresse géographique" class="form-control" type="text"
+                                        formControlName="adresseField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit-section">
+                                <button class="btn btn-primary submit-btn" type="submit">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Edit Personne Modal -->
+
+        <!-- Delete Personne Modal -->
+        <div class="modal custom-modal fade" id="delete_expense" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-header">
+                            <h3>Supprimer Personne</h3>
+                            <p>Êtes-vous sûr de vouloir supprimer?</p>
+                        </div>
+                        <div class="modal-btn delete-action">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a (click)="handleDeletePersonne(PersonneID)" data-dismiss="modal" class="btn btn-primary continue-btn">Supprimer</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Annuler</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Delete Personne Modal -->
+        
+    </div>
+</div>

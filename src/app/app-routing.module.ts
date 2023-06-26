@@ -10,6 +10,7 @@ import { ServiceComponent } from './service/service.component';
 import { FonctionComponent } from './fonction/fonction.component';
 import { TypeStageComponent } from './typestage/typestage.component';
 import { TypeContratComponent } from './typecontrat/typecontrat.component';
+import { PersonneComponent } from './personne/personne.component';
 
 const routes: Routes = [
   // {path:"", component:LoginComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path:"fonction", component:FonctionComponent},
   {path:"typestage", component:TypeStageComponent},
   {path:"typecontrat", component: TypeContratComponent},
+  {path:"personne", component: PersonneComponent},
 ];
 
 @NgModule({

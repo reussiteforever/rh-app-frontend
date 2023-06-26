@@ -3,7 +3,7 @@ export interface Personne {
     nom: string,
     prenom: string,
     raisonSociale: string,
-    Matricule: string,
+    matricule: string,
     email: string,
     telephone: string,
     adresse: string,
