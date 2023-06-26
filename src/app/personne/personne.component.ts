@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SiteService } from '../services/site/site.service';
 import { Site } from '../interfaces/site';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-Personne',
@@ -28,7 +29,8 @@ export class PersonneComponent implements OnInit {
     private PersonneService: PersonneService,
     private router: Router,
     private fb: FormBuilder,
-    private siteService: SiteService
+    private siteService: SiteService,
+    private toastr: ToastrService
     ) { }
 
   //initialization of Personne add form as a Reactive-Form
@@ -96,8 +98,9 @@ export class PersonneComponent implements OnInit {
     this.PersonneService.deletePersonne(PersonneId).subscribe({
       next: (value) => {
         this.Personnes = this.Personnes.filter(Personne => Personne.id !== PersonneId);
-        console.log("Suppression réussie !"+ value);
-      }
+        this.showSuccess()
+      },
+      error: ()=>{this.showError()}
     });
   }
 
@@ -115,10 +118,11 @@ export class PersonneComponent implements OnInit {
       next: (value)=>{
         //refresh the list of Personnes
         this.Personnes = [value].concat(this.Personnes);
-        console.log("Opération réussie!");
         //reset form fields
         this.addPersonneFormGroup.reset();
-      }
+        this.showSuccess()
+      },
+      error: ()=>{this.showError()}
     });
   }
 
@@ -144,13 +148,22 @@ export class PersonneComponent implements OnInit {
             e.matricule = this.Personne.matricule;
             e.adresse = this.Personne.adresse;
           }
-        });
-        //refresh the list of Personnes
-        console.log("Opération réussie!");
+        },
+        this.showSuccess()
+        );
         //reset form fields
         this.editPersonneFormGroup.reset();
-      }
+      },
+      error: ()=>{this.showError()}
     });
+  }
+
+  showSuccess() {
+    this.toastr.success("L'opération a réussi.", 'Succès !');
+  }
+
+  showError() {
+    this.toastr.error("L'opération a échoué.",'Echec !');
   }
 
 }
