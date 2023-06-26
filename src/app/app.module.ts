@@ -17,6 +17,7 @@ import { ServiceComponent } from './service/service.component';
 import { FonctionComponent } from './fonction/fonction.component';
 import { TypeStageComponent } from './typestage/typestage.component';
 import { TypeContratComponent } from './typecontrat/typecontrat.component';
+import { PersonneComponent } from './personne/personne.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { TypeContratComponent } from './typecontrat/typecontrat.component';
     FonctionComponent,
     TypeStageComponent,
     TypeContratComponent,
+    PersonneComponent,
   ],
   imports: [
     BrowserModule,
