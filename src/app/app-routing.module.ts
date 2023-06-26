@@ -6,6 +6,10 @@ import { ContratComponent } from './contrat/contrat.component';
 import { StageComponent } from './stage/stage.component';
 import { SiteComponent } from './site/site.component';
 import { DepartementComponent } from './departement/departement.component';
+import { ServiceComponent } from './service/service.component';
+import { FonctionComponent } from './fonction/fonction.component';
+import { TypeStageComponent } from './typestage/typestage.component';
+import { TypeContratComponent } from './typecontrat/typecontrat.component';
 
 const routes: Routes = [
   // {path:"", component:LoginComponent},
@@ -15,6 +19,10 @@ const routes: Routes = [
   {path:"stage", component:StageComponent},
   {path:"site", component:SiteComponent},
   {path:"departement", component:DepartementComponent},
+  {path:"service", component:ServiceComponent},
+  {path:"fonction", component:FonctionComponent},
+  {path:"typestage", component:TypeStageComponent},
+  {path:"typecontrat", component: TypeContratComponent},
 ];
 
 @NgModule({

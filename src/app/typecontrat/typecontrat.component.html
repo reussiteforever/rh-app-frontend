@@ -11,14 +11,14 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Sites</h3>
+                        <h3 class="page-title">TypeContrats</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Tableau de bord</a></li>
-                            <li class="breadcrumb-item active">Liste des Sites</li>
+                            <li class="breadcrumb-item active">Liste des TypeContrats</li>
                         </ul>
                     </div>
                     <div class="col-auto float-right ml-auto">
-                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_expense"><i class="fa fa-plus"></i> Ajouter Site</a>
+                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_expense"><i class="fa fa-plus"></i> Ajouter TypeContrat</a>
                     </div>
                 </div>
             </div>
@@ -80,18 +80,14 @@
                         <table class="table table-striped custom-table mb-0 datatable">
                             <thead>
                                 <tr>
-                                    <th>Code Site</th>
-                                    <th>Libelle Site</th>
+                                    <th>Libelle TypeContrat</th>
                                     <!-- <th class="text-center">Status</th> -->
                                     <th class="text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let site of sites">
-                                    <td>
-                                        {{site.codeSite}}
-                                    </td>
-                                    <td>{{site.libelleSite}}</td> 
+                                <tr *ngFor="let TypeContrat of TypeContrats">
+                                    <td>{{TypeContrat.libelleTypeContrat}}</td> 
                                     <!-- <td class="text-center">
                                         <div class="dropdown action-label">
                                             <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
@@ -107,8 +103,8 @@
                                         <div class="dropdown dropdown-action">
                                             <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a (click)="getSite(site.id)"class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_expense"><i class="fa fa-pencil m-r-5"></i> Modifier</a>
-                                                <a (click)="getSite(site.id)" class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_expense"><i class="fa fa-trash-o m-r-5"></i> Supprimer</a>
+                                                <a (click)="getTypeContrat(TypeContrat.id)"class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_expense"><i class="fa fa-pencil m-r-5"></i> Modifier</a>
+                                                <a (click)="getTypeContrat(TypeContrat.id)" class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_expense"><i class="fa fa-trash-o m-r-5"></i> Supprimer</a>
                                             </div>
                                         </div>
                                     </td>
@@ -121,34 +117,25 @@
         </div>
         <!-- /Page Content -->
         
-        <!-- Add Site Modal -->
+        <!-- Add TypeContrat Modal -->
         <div id="add_expense" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Ajouter Site</h5>
+                        <h5 class="modal-title">Ajouter TypeContrat</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form [formGroup]="addSiteFormGroup" (ngSubmit)="handleCreateSite()">
+                        <form [formGroup]="addTypeContratFormGroup" (ngSubmit)="handleCreateTypeContrat()">
                             <!-- OUR FORM -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="codeSite">Code Site</label>
-                                        <input id="codeSite" placeholder="Saisir le code du site" class="form-control" type="text"
-                                        formControlName="codeSiteField">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="libelleSite">Libellé Site</label>
-                                        <input id="libelleSite" placeholder="Saisir le libellé du site" class="form-control" type="text"
-                                        formControlName="libelleSiteField">
+                                        <label for="libelleTypeContrat">Libellé TypeContrat</label>
+                                        <input id="libelleTypeContrat" placeholder="Saisir le libellé du TypeContrat" class="form-control" type="text"
+                                        formControlName="libelleTypeContratField">
                                     </div>
                                 </div>
                             </div>
@@ -160,36 +147,27 @@
                 </div>
             </div>
         </div>
-        <!-- /Add Site Modal -->
+        <!-- /Add TypeContrat Modal -->
         
-        <!-- Edit Site Modal -->
+        <!-- Edit TypeContrat Modal -->
         <div id="edit_expense" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modifier Site</h5>
+                        <h5 class="modal-title">Modifier TypeContrat</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form [formGroup]="editSiteFormGroup" (ngSubmit)="handleUpdateSite(siteID)">
+                        <form [formGroup]="editTypeContratFormGroup" (ngSubmit)="handleUpdateTypeContrat(TypeContratID)">
                             <!-- OUR FORM -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="codeSite">Code Site</label>
-                                        <input id="codeSite" placeholder="Saisir le code du site" class="form-control" type="text"
-                                        formControlName="codeSiteField">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="libelleSite">Libellé Site</label>
-                                        <input id="libelleSite" placeholder="Saisir le libellé du site" class="form-control" type="text"
-                                        formControlName="libelleSiteField">
+                                        <label for="libelleTypeContrat">Libellé TypeContrat</label>
+                                        <input id="libelleTypeContrat" placeholder="Saisir le libellé du TypeContrat" class="form-control" type="text"
+                                        formControlName="libelleTypeContratField">
                                     </div>
                                 </div>
                             </div>
@@ -201,21 +179,21 @@
                 </div>
             </div>
         </div>
-        <!-- /Edit Site Modal -->
+        <!-- /Edit TypeContrat Modal -->
 
-        <!-- Delete Site Modal -->
+        <!-- Delete TypeContrat Modal -->
         <div class="modal custom-modal fade" id="delete_expense" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="form-header">
-                            <h3>Supprimer Site</h3>
+                            <h3>Supprimer TypeContrat</h3>
                             <p>Êtes-vous sûr de vouloir supprimer?</p>
                         </div>
                         <div class="modal-btn delete-action">
                             <div class="row">
                                 <div class="col-6">
-                                    <a (click)="handleDeleteSite(siteID)" data-dismiss="modal" class="btn btn-primary continue-btn">Supprimer</a>
+                                    <a (click)="handleDeleteTypeContrat(TypeContratID)" data-dismiss="modal" class="btn btn-primary continue-btn">Supprimer</a>
                                 </div>
                                 <div class="col-6">
                                     <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Annuler</a>
@@ -226,7 +204,7 @@
                 </div>
             </div>
         </div>
-        <!-- Delete Site Modal -->
+        <!-- Delete TypeContrat Modal -->
         
     </div>
 </div>

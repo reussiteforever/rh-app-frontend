@@ -4,6 +4,6 @@ export interface Service {
     id: number,
     codeService: string,
     libelleService: string,
-    idDepartement: Departement,
+    DepartementId: string,
     state: number
 }

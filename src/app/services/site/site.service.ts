@@ -27,7 +27,7 @@ export class SiteService {
 
   /**
    * 
-   * @returns La liste de tous les sites
+   * @returns Récupérer un site
    */
   public getOneSite(id:number): Observable<Site>{
     return this.http.get<Site>(this.siteUrl+`/${id}`);

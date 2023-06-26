@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SiteService } from '../services/site/site.service';
 import { Site } from '../interfaces/site';
-import { SiteComponent } from '../site/site.component';
 
 @Component({
   selector: 'app-Departement',

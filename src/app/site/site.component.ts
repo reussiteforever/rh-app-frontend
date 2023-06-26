@@ -18,8 +18,8 @@ export class SiteComponent implements OnInit {
   public siteID: number = 0;
   site: any={} ;
 
-  addSiteFormGroup!: FormGroup;
-  editSiteFormGroup!: FormGroup;
+  // addSiteFormGroup!: FormGroup;
+  // editSiteFormGroup!: FormGroup;
 
   constructor(
     private siteService: SiteService,
@@ -27,26 +27,27 @@ export class SiteComponent implements OnInit {
     private fb: FormBuilder
     ) { }
 
+  //initialization of Site add form as a Reactive-Form
+  addSiteFormGroup = this.fb.group({
+    codeSiteField: ['', Validators.required],
+    libelleSiteField: ['', Validators.required]
+  });
+  editSiteFormGroup = this.fb.group({
+    codeSiteField: ['', Validators.required],
+    libelleSiteField: ['', Validators.required]
+  });
+
   ngOnInit(): void {
-    //initialization of Site add form as a Reactive-Form
-    this.addSiteFormGroup = this.fb.group({
-      codeSiteField: ['', Validators.required],
-      libelleSiteField: ['', Validators.required]
-    });
-    this.editSiteFormGroup = this.fb.group({
-      codeSiteField: ['', Validators.required],
-      libelleSiteField: ['', Validators.required]
-    });
-    this.handleGetAllSites(this.sites);
+    this.handleGetAllSites();
   }
 
   get codeSiteField(){return this.editSiteFormGroup.get('codeSiteField');}
   get libelleSiteField(){return this.editSiteFormGroup.get('libelleSiteField');}
 
-  public handleGetAllSites(listeSite:Site[]){
+  public handleGetAllSites(){
     this.siteService.getAllSites().subscribe({
       next: (value) => {
-        listeSite = value;
+        this.sites = value;
       },
       error: (value)=>{
         console.log(value);

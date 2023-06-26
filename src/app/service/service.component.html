@@ -11,14 +11,14 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Sites</h3>
+                        <h3 class="page-title">Services</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Tableau de bord</a></li>
-                            <li class="breadcrumb-item active">Liste des Sites</li>
+                            <li class="breadcrumb-item active">Liste des Services</li>
                         </ul>
                     </div>
                     <div class="col-auto float-right ml-auto">
-                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_expense"><i class="fa fa-plus"></i> Ajouter Site</a>
+                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_expense"><i class="fa fa-plus"></i> Ajouter Service</a>
                     </div>
                 </div>
             </div>
@@ -80,35 +80,27 @@
                         <table class="table table-striped custom-table mb-0 datatable">
                             <thead>
                                 <tr>
-                                    <th>Code Site</th>
-                                    <th>Libelle Site</th>
-                                    <!-- <th class="text-center">Status</th> -->
+                                    <th>Code Service</th>
+                                    <th>Libelle Service</th>
+                                    <th class="text-center">Departement</th>
                                     <th class="text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let site of sites">
+                                <tr *ngFor="let service of services">
                                     <td>
-                                        {{site.codeSite}}
+                                        {{service.codeService}}
                                     </td>
-                                    <td>{{site.libelleSite}}</td> 
-                                    <!-- <td class="text-center">
-                                        <div class="dropdown action-label">
-                                            <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa fa-dot-circle-o text-danger"></i> Pending
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Pending</a>
-                                                <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                                            </div>
-                                        </div>
-                                    </td> -->
+                                    <td>{{service.libelleService}}</td> 
+                                    <td class="text-center">
+                                        {{service.Departement.libelleDepartement}}
+                                    </td>
                                     <td class="text-right">
                                         <div class="dropdown dropdown-action">
                                             <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a (click)="getSite(site.id)"class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_expense"><i class="fa fa-pencil m-r-5"></i> Modifier</a>
-                                                <a (click)="getSite(site.id)" class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_expense"><i class="fa fa-trash-o m-r-5"></i> Supprimer</a>
+                                                <a (click)="getService(service.id)"class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_expense"><i class="fa fa-pencil m-r-5"></i> Modifier</a>
+                                                <a (click)="getService(service.id)" class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_expense"><i class="fa fa-trash-o m-r-5"></i> Supprimer</a>
                                             </div>
                                         </div>
                                     </td>
@@ -121,34 +113,45 @@
         </div>
         <!-- /Page Content -->
         
-        <!-- Add Site Modal -->
+        <!-- Add Service Modal -->
         <div id="add_expense" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Ajouter Site</h5>
+                        <h5 class="modal-title">Ajouter Service</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form [formGroup]="addSiteFormGroup" (ngSubmit)="handleCreateSite()">
+                        <form [formGroup]="addServiceFormGroup" (ngSubmit)="handleCreateService()">
                             <!-- OUR FORM -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="codeSite">Code Site</label>
-                                        <input id="codeSite" placeholder="Saisir le code du site" class="form-control" type="text"
-                                        formControlName="codeSiteField">
+                                        <label for="codeService">Code Service</label>
+                                        <input id="codeService" placeholder="Saisir le code du Service" class="form-control" type="text"
+                                        formControlName="codeServiceField">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="libelleSite">Libellé Site</label>
-                                        <input id="libelleSite" placeholder="Saisir le libellé du site" class="form-control" type="text"
-                                        formControlName="libelleSiteField">
+                                        <label for="libelleService">Libellé Service</label>
+                                        <input id="libelleService" placeholder="Saisir le libellé du Service" class="form-control" type="text"
+                                        formControlName="libelleServiceField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="departement">Choisissez le département d'appartenance</label>
+                                        <select id="departement" class="form-control" (change)="changeDepartement($event)"
+                                        formControlName="departementField">
+                                            <option *ngFor="let departement of listeDepartements" [ngValue]="departement.id">{{departement.libelleDepartement}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -160,36 +163,47 @@
                 </div>
             </div>
         </div>
-        <!-- /Add Site Modal -->
+        <!-- /Add Service Modal -->
         
-        <!-- Edit Site Modal -->
+        <!-- Edit Service Modal -->
         <div id="edit_expense" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modifier Site</h5>
+                        <h5 class="modal-title">Modifier Service</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form [formGroup]="editSiteFormGroup" (ngSubmit)="handleUpdateSite(siteID)">
+                        <form [formGroup]="editServiceFormGroup" (ngSubmit)="handleUpdateService(ServiceID)">
                             <!-- OUR FORM -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="codeSite">Code Site</label>
-                                        <input id="codeSite" placeholder="Saisir le code du site" class="form-control" type="text"
-                                        formControlName="codeSiteField">
+                                        <label for="codeService" >Code Service</label>
+                                        <input id="codeService" placeholder="Saisir le code du Service" class="form-control" type="text"
+                                        formControlName="codeServiceField">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="libelleSite">Libellé Site</label>
-                                        <input id="libelleSite" placeholder="Saisir le libellé du site" class="form-control" type="text"
-                                        formControlName="libelleSiteField">
+                                        <label for="libelleService">Libellé Service</label>
+                                        <input id="libelleService" placeholder="Saisir le libellé du Service" class="form-control" type="text"
+                                        formControlName="libelleServiceField">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="departement">Choisissez le Département d'appartenance</label>
+                                        <select id="departement" class="form-control" (change)="changeDepartement($event)"
+                                        formControlName="departementField">
+                                            <option *ngFor="let departement of listeDepartements" [ngValue]="departement">{{departement.libelleDepartement}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -201,21 +215,21 @@
                 </div>
             </div>
         </div>
-        <!-- /Edit Site Modal -->
+        <!-- /Edit Service Modal -->
 
-        <!-- Delete Site Modal -->
+        <!-- Delete Service Modal -->
         <div class="modal custom-modal fade" id="delete_expense" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="form-header">
-                            <h3>Supprimer Site</h3>
+                            <h3>Supprimer Service</h3>
                             <p>Êtes-vous sûr de vouloir supprimer?</p>
                         </div>
                         <div class="modal-btn delete-action">
                             <div class="row">
                                 <div class="col-6">
-                                    <a (click)="handleDeleteSite(siteID)" data-dismiss="modal" class="btn btn-primary continue-btn">Supprimer</a>
+                                    <a (click)="handleDeleteService(ServiceID)" data-dismiss="modal" class="btn btn-primary continue-btn">Supprimer</a>
                                 </div>
                                 <div class="col-6">
                                     <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Annuler</a>
@@ -226,7 +240,7 @@
                 </div>
             </div>
         </div>
-        <!-- Delete Site Modal -->
+        <!-- Delete Service Modal -->
         
     </div>
 </div>
