@@ -3,6 +3,7 @@ import { Fonction } from '../interfaces/fonction';
 import { FonctionService } from '../services/fonction/fonction.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationClass } from '../services/notification';
 
 @Component({
   selector: 'app-Fonction',
@@ -24,7 +25,8 @@ export class FonctionComponent implements OnInit {
   constructor(
     private FonctionService: FonctionService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notification: NotificationClass
     ) { }
 
   //initialization of Fonction add form as a Reactive-Form
@@ -71,8 +73,9 @@ export class FonctionComponent implements OnInit {
     this.FonctionService.deleteFonction(FonctionId).subscribe({
       next: (value) => {
         this.Fonctions = this.Fonctions.filter(Fonction => Fonction.id !== FonctionId);
-        console.log("Suppression réussie !"+ value);
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -86,10 +89,11 @@ export class FonctionComponent implements OnInit {
       next: (value)=>{
         //refresh the list of Fonctions
         this.Fonctions = [value].concat(this.Fonctions);
-        console.log("Opération réussie!");
         //reset form fields
         this.addFonctionFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -108,11 +112,11 @@ export class FonctionComponent implements OnInit {
             e.libelleFonction = this.Fonction.libelleFonction;
           }
         });
-        //refresh the list of Fonctions
-        console.log("Opération réussie!");
         //reset form fields
         this.editFonctionFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 }

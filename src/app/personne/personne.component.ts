@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Personne } from '../interfaces/personne';
 import { PersonneService } from '../services/personne/personne.service';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SiteService } from '../services/site/site.service';
 import { Site } from '../interfaces/site';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationClass } from '../services/notification';
 
 @Component({
   selector: 'app-Personne',
@@ -27,10 +26,9 @@ export class PersonneComponent implements OnInit {
 
   constructor(
     private PersonneService: PersonneService,
-    private router: Router,
     private fb: FormBuilder,
     private siteService: SiteService,
-    private toastr: ToastrService
+    private notification: NotificationClass
     ) { }
 
   //initialization of Personne add form as a Reactive-Form
@@ -98,9 +96,9 @@ export class PersonneComponent implements OnInit {
     this.PersonneService.deletePersonne(PersonneId).subscribe({
       next: (value) => {
         this.Personnes = this.Personnes.filter(Personne => Personne.id !== PersonneId);
-        this.showSuccess()
+        this.notification.showSuccess()
       },
-      error: ()=>{this.showError()}
+      error: ()=>{this.notification.showError()}
     });
   }
 
@@ -120,9 +118,9 @@ export class PersonneComponent implements OnInit {
         this.Personnes = [value].concat(this.Personnes);
         //reset form fields
         this.addPersonneFormGroup.reset();
-        this.showSuccess()
+        this.notification.showSuccess()
       },
-      error: ()=>{this.showError()}
+      error: ()=>{this.notification.showError()}
     });
   }
 
@@ -149,21 +147,13 @@ export class PersonneComponent implements OnInit {
             e.adresse = this.Personne.adresse;
           }
         },
-        this.showSuccess()
+        this.notification.showSuccess()
         );
         //reset form fields
         this.editPersonneFormGroup.reset();
       },
-      error: ()=>{this.showError()}
+      error: ()=>{this.notification.showError()}
     });
-  }
-
-  showSuccess() {
-    this.toastr.success("L'opération a réussi.", 'Succès !');
-  }
-
-  showError() {
-    this.toastr.error("L'opération a échoué.",'Echec !');
   }
 
 }

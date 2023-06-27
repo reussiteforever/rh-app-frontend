@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TypeContrat } from '../interfaces/typecontrat';
 import { TypeContratService } from '../services/typecontrat/typecontrat.service';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationClass } from '../services/notification';
 
 @Component({
   selector: 'app-TypeContrat',
@@ -23,8 +23,8 @@ export class TypeContratComponent implements OnInit {
 
   constructor(
     private TypeContratService: TypeContratService,
-    private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notification: NotificationClass
     ) { }
 
   //initialization of TypeContrat add form as a Reactive-Form
@@ -68,8 +68,9 @@ export class TypeContratComponent implements OnInit {
     this.TypeContratService.deleteTypeContrat(TypeContratId).subscribe({
       next: (value) => {
         this.TypeContrats = this.TypeContrats.filter(TypeContrat => TypeContrat.id !== TypeContratId);
-        console.log("Suppression réussie !"+ value);
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -82,10 +83,11 @@ export class TypeContratComponent implements OnInit {
       next: (value)=>{
         //refresh the list of TypeContrats
         this.TypeContrats = [value].concat(this.TypeContrats);
-        console.log("Opération réussie!");
         //reset form fields
         this.addTypeContratFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -102,11 +104,11 @@ export class TypeContratComponent implements OnInit {
             e.libelleTypeContrat = this.TypeContrat.libelleTypeContrat;
           }
         });
-        //refresh the list of TypeContrats
-        console.log("Opération réussie!");
         //reset form fields
         this.editTypeContratFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 }

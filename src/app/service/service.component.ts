@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Service } from '../interfaces/service';
 import { ServiceService } from '../services/service/service.service';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Departement } from '../interfaces/departement';
 import { DepartementService } from '../services/departement/departement.service';
+import { NotificationClass } from '../services/notification';
 
 @Component({
   selector: 'app-Service',
@@ -26,9 +26,9 @@ export class ServiceComponent implements OnInit {
 
   constructor(
     private serviceService: ServiceService,
-    private router: Router,
     private fb: FormBuilder,
-    private departementService: DepartementService
+    private departementService: DepartementService,
+    private notification: NotificationClass
     ) { }
 
   //initialization of Service add form as a Reactive-Form
@@ -95,8 +95,9 @@ export class ServiceComponent implements OnInit {
     this.serviceService.deleteService(ServiceId).subscribe({
       next: (value) => {
         this.services = this.services.filter(Service => Service.id !== ServiceId);
-        console.log("Suppression réussie !"+ value);
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -111,10 +112,11 @@ export class ServiceComponent implements OnInit {
       next: (value)=>{
         //refresh the list of Services
         this.services = [value].concat(this.services);
-        console.log("Opération réussie!");
         //reset form fields
         this.addServiceFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -135,11 +137,11 @@ export class ServiceComponent implements OnInit {
             e.DepartementId = this.service.DepartementId;
           }
         });
-        //refresh the list of Services
-        console.log("Opération réussie!");
         //reset form fields
         this.editServiceFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 

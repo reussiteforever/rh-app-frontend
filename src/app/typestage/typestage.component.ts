@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TypeStage } from '../interfaces/typestage';
 import { TypeStageService } from '../services/typestage/typestage.service';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationClass } from '../services/notification';
 
 @Component({
   selector: 'app-TypeStage',
@@ -23,8 +23,8 @@ export class TypeStageComponent implements OnInit {
 
   constructor(
     private TypeStageService: TypeStageService,
-    private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notification: NotificationClass
     ) { }
 
   //initialization of TypeStage add form as a Reactive-Form
@@ -68,8 +68,9 @@ export class TypeStageComponent implements OnInit {
     this.TypeStageService.deleteTypeStage(TypeStageId).subscribe({
       next: (value) => {
         this.TypeStages = this.TypeStages.filter(TypeStage => TypeStage.id !== TypeStageId);
-        console.log("Suppression réussie !"+ value);
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -82,10 +83,11 @@ export class TypeStageComponent implements OnInit {
       next: (value)=>{
         //refresh the list of TypeStages
         this.TypeStages = [value].concat(this.TypeStages);
-        console.log("Opération réussie!");
         //reset form fields
         this.addTypeStageFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -102,11 +104,11 @@ export class TypeStageComponent implements OnInit {
             e.libelleTypeStage = this.TypeStage.libelleTypeStage;
           }
         });
-        //refresh the list of TypeStages
-        console.log("Opération réussie!");
         //reset form fields
         this.editTypeStageFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 }

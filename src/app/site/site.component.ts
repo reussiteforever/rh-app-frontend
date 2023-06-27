@@ -3,6 +3,7 @@ import { Site } from '../interfaces/site';
 import { SiteService } from '../services/site/site.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationClass } from '../services/notification';
 
 @Component({
   selector: 'app-site',
@@ -24,7 +25,8 @@ export class SiteComponent implements OnInit {
   constructor(
     private siteService: SiteService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notification: NotificationClass
     ) { }
 
   //initialization of Site add form as a Reactive-Form
@@ -71,8 +73,9 @@ export class SiteComponent implements OnInit {
     this.siteService.deleteSite(siteId).subscribe({
       next: (value) => {
         this.sites = this.sites.filter(site => site.id !== siteId);
-        console.log("Suppression réussie !"+ value);
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -86,10 +89,11 @@ export class SiteComponent implements OnInit {
       next: (value)=>{
         //refresh the list of sites
         this.sites = [value].concat(this.sites);
-        console.log("Opération réussie!");
         //reset form fields
         this.addSiteFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 
@@ -108,11 +112,11 @@ export class SiteComponent implements OnInit {
             e.libelleSite = this.site.libelleSite;
           }
         });
-        //refresh the list of sites
-        console.log("Opération réussie!");
         //reset form fields
         this.editSiteFormGroup.reset();
-      }
+        this.notification.showSuccess();
+      },
+      error: ()=>{this.notification.showError();}
     });
   }
 }
