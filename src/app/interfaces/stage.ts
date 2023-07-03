@@ -5,12 +5,12 @@ import { TypeStage } from "./typestage";
 
 export interface Stage {
     id: number,
-    dateDebut: Date,
-    dateFin: Date,
+    dateDebut: string,
+    dateFin: string,
     responsableStage: string,
-    idTypeStage: TypeStage,
-    idPersonne: Personne,
-    idService: Service,
-    idFonction: Fonction,
+    TypeStageId: string,
+    PersonneId: string,
+    ServiceId: string,
+    FonctionId: string,
     state: number
 }
