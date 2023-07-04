@@ -10,6 +10,7 @@ import { Personne } from '../interfaces/personne';
 import { Fonction } from '../interfaces/fonction';
 import { TypeStage } from '../interfaces/typestage';
 import { FormBuilder, Validators } from '@angular/forms';
+import { NotificationClass } from '../services/notification';
 
 @Component({
   selector: 'app-stage',
@@ -25,7 +26,7 @@ export class StageComponent implements OnInit {
   stages: Stage[] = [];
   listeServices: Service[] = [];
   listePersonnes: Personne[] = [];
-  listeFonction: Fonction[] = [];
+  listeFonctions: Fonction[] = [];
   listeTypeStage: TypeStage[] = [];
 
   //initialization of Stage add form as a Reactive-Form
@@ -54,7 +55,8 @@ export class StageComponent implements OnInit {
               private serviceService: ServiceService,
               private personneService: PersonneService,
               private fonctionService: FonctionService,
-              private typestageService: TypeStageService) 
+              private typestageService: TypeStageService,
+              private notification: NotificationClass) 
     { }
 
   ngOnInit(): void {
@@ -63,26 +65,29 @@ export class StageComponent implements OnInit {
     //Get list of Services
     this.serviceService.getAllServices().subscribe((response) => { this.listeServices = response; });
     //Get list of Personnes
-    this.serviceService.getAllServices().subscribe((response) => { this.listeServices = response; });
+    this.typestageService.getAllTypeStages().subscribe((response) => { this.listeTypeStage = response; });
     //Get list of Type de Stage
     this.personneService.getAllPersonnes().subscribe((response) => { this.listePersonnes = response; });
     //Get list of fonctions
-    this.fonctionService.getAllFonctions().subscribe((response) => { this.listeFonction = response; });
+    this.fonctionService.getAllFonctions().subscribe((response) => { this.listeFonctions = response; });
   }
 
   // Access formcontrols getter
-  get codeStageField(){return this.editStageFormGroup.get('codeStageField');}
-  get libelleStageField(){return this.editStageFormGroup.get('libelleStageField');}
-  get siteField() {
-    return this.addStageFormGroup.get('siteField');
-  }
+  get dateDebutField(){return this.addStageFormGroup.get('dateDebutField');}
+  get dateFinField(){return this.addStageFormGroup.get('dateFinField');}
+  get responsableStageField(){return this.addStageFormGroup.get('responsableStageField');}
+  get typeStageField(){return this.addStageFormGroup.get('typeStageField');}
+  get fonctionField(){return this.editStageFormGroup.get('fonctionField');}
+  get serviceField(){return this.editStageFormGroup.get('serviceField');}
+  get personneField(){return this.addStageFormGroup.get('personneField');}
 
 
-  changeSite(e:any){
-    this.siteField?.setValue(e.target.value, {
-      onlySelf: true
-    });
-  }
+  changeFonction(e:any){this.fonctionField?.setValue(e.target.value, {onlySelf: true});}
+  changeService(e:any){this.serviceField?.setValue(e.target.value, {onlySelf: true});}
+  changePersonne(e:any){this.personneField?.setValue(e.target.value, {onlySelf: true});}
+  changeTypeStage(e:any){this.typeStageField?.setValue(e.target.value, {onlySelf: true});}
+  changeDateDebut(e:any){this.dateDebutField?.setValue(e.target.value, {onlySelf: true});}
+  changeDateFin(e:any){this.dateFinField?.setValue(e.target.value, {onlySelf: true});}
 
   
 
@@ -102,8 +107,8 @@ export class StageComponent implements OnInit {
     this.stageService.getOneStage(StageId).subscribe((response)=>{
       this.editStageFormGroup.setValue(
         {
-          dateDebutField: response.dateDebut,
-          dateFinField: response.dateFin,
+          dateDebutField: response.dateDebut.toString(),
+          dateFinField: response.dateFin.toString(),
           responsableStageField: response.responsableStage,
           typeStageField: response.TypeStageId,
           fonctionField: response.FonctionId,
@@ -126,9 +131,13 @@ export class StageComponent implements OnInit {
   public handleCreateStage(): void {
     //Creation of the Stage Object to persist
     this.Stage = {
-      codeStage : this.addStageFormGroup.value.codeStageField,
-      libelleStage: this.addStageFormGroup.value.libelleStageField,
-      SiteId: this.addStageFormGroup.value.siteField
+      dateDebut: this.addStageFormGroup.value.dateDebutField,
+      dateFin: this.addStageFormGroup.value.dateFinField,
+      responsableStage: this.addStageFormGroup.value.responsableStageField,
+      typeStageId: this.addStageFormGroup.value.typeStageField,
+      fonctionId: this.addStageFormGroup.value.fonctionField,
+      serviceId: this.addStageFormGroup.value.serviceField,
+      personneId: this.addStageFormGroup.value.personneField
     };    
     this.stageService.createStage(this.Stage).subscribe({
       next: (value)=>{
@@ -137,6 +146,11 @@ export class StageComponent implements OnInit {
         console.log("Opération réussie!");
         //reset form fields
         this.addStageFormGroup.reset();
+      },
+      error: (e) => { console.log(e);
+        console.log(this.addStageFormGroup.value);
+        console.log(this.Stage.dateFin.value);
+        
       }
     });
   }
@@ -144,18 +158,26 @@ export class StageComponent implements OnInit {
   public handleUpdateStage(StageId:number): void {
     //Creation of the Stage Object to persist
     this.Stage = {
-      codeStage : this.editStageFormGroup.value.codeStageField,
-      libelleStage: this.editStageFormGroup.value.libelleStageField,
-      SiteId: this.editStageFormGroup.value.siteField
+      dateDebut: this.editStageFormGroup.value.dateDebutField,
+      dateFin: this.editStageFormGroup.value.dateFinField,
+      responsableStage: this.editStageFormGroup.value.responsableStageField,
+      typeStageId: this.editStageFormGroup.value.typeStageField,
+      fonctionId: this.editStageFormGroup.value.fonctionField,
+      serviceId: this.editStageFormGroup.value.serviceField,
+      personneId: this.editStageFormGroup.value.personneField
     };
     this.stageService.updateStage(StageId,this.Stage).subscribe({
       next: ()=>{
         //Update of the selected item
         this.Stages.map((e) => {
           if(e.id == StageId){
-            e.codeStage = this.Stage.codeStage;
-            e.libelleStage = this.Stage.libelleStage;
-            e.SiteId = this.Stage.SiteId;
+            e.dateDebut = this.Stage.dateDebut;
+            e.dateFin = this.Stage.dateFin;
+            e.responsableStage = this.Stage.responsableStage;
+            e.typeStageId = this.Stage.typeStageId;
+            e.fonctionId = this.Stage.fonctionId;
+            e.serviceId = this.Stage.serviceId;
+            e.personneId = this.Stage.personneId;
           }
         });
         //refresh the list of Stages

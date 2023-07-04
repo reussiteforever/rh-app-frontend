@@ -145,30 +145,30 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form [formGroup]="addStageFormGroup" (ngSubmit)="handleCreateStage()">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Choisir Stagiaire</label>
-                                        <input class="form-control" type="text">
+                                        <label for="stagiaire">Choisir Stagiaire</label>
+                                        <input id="stagiaire" placeholder="Choisir un stagiaire" class="form-control" type="text"
+                                        formControlName="personneField">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Choisir Responsable</label>
-                                        <input class="form-control" type="text">
+                                        <label for="responsable">Choisir Responsable</label>
+                                        <input id="responsable" placeholder="Choisir le responsable" class="form-control" type="text"
+                                        formControlName="responsableStageField">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Type de stage </label>
-                                        <select class="select">
-                                            <option> -- Choisir -- </option>
-                                            <option>Stage de perfectionnement</option>
-                                            <option>Stage d'apprentissage</option>
-                                            <option>EIT</option>
+                                        <label for="typestage">Type de stage</label>
+                                        <select id="typestage" class="form-control" (change)="changeTypeStage($event)"
+                                        formControlName="typeStageField">
+                                            <option *ngFor="let typestage of listeTypeStage" [ngValue]="typestage.id">{{typestage.libelleTypeStage}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -176,43 +176,36 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Date début</label>
-                                        <div class="cal-icon"><input class="form-control datetimepicker" type="text"></div>
+                                        <label for="dateDebut">Date début</label>
+                                        <div class="cal-icon"><input value="" id="dateDebut" formControlName="dateDebutField"
+                                             class="form-control datetimepicker" type="text" (change)="changeDateDebut($event)">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Date fin</label>
-                                        <div class="cal-icon"><input class="form-control datetimepicker" type="text"></div>
+                                        <label for="dateFin">Date fin</label>
+                                        <div class="cal-icon"><input value="" id="dateFin" formControlName="dateFinField" 
+                                            class="form-control datetimepicker" type="text" (change)="changeDateFin($event)"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Service </label>
-                                        <select class="select">
-                                            <option> -- Choisir -- </option>
-                                            <option>Daniel Porter</option>
-                                            <option>Roger Dixon</option>
-                                            <option>Daniel Porter</option>
-                                            <option>Roger Dixon</option>
-                                            <option>Daniel Porter</option>
-                                            <option>Roger Dixon</option>
-                                            <option>Daniel Porter</option>
-                                            <option>Roger Dixon</option>
-                                            <option>Daniel Porter</option>
-                                            <option>Roger Dixon</option>
+                                        <label for="service">Service</label>
+                                        <select id="service" class="form-control" (change)="changeService($event)"
+                                        formControlName="serviceField">
+                                            <option *ngFor="let service of listeServices" [ngValue]="service.id">{{service.libelleService}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Fonction </label>
-                                        <select class="select">
-                                            <option> -- Choisir -- </option>
-                                            <option>Daniel Porter</option>
-                                            <option>Roger Dixon</option>
+                                        <label for="fonction">Fonction</label>
+                                        <select id="fonction" class="form-control" (change)="changeFonction($event)"
+                                        formControlName="fonctionField">
+                                            <option *ngFor="let fonction of listeFonctions" [ngValue]="fonction.id">{{fonction.libelleFonction}}</option>
                                         </select>
                                     </div>
                                 </div>
