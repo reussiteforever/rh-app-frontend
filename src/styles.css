@@ -46,3 +46,5 @@
 "node_modules/raphael/raphael.js",
 "src/assets/js/chart.js",
 "src/assets/js/app.js" */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

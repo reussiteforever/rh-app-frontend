@@ -133,6 +133,15 @@
             </div>
         </div>
         <!-- /Page Content -->
+
+        <!-- <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field> -->
+        
         
         <!-- Add Expense Modal -->
         <div id="add_expense" class="modal custom-modal fade" role="dialog">
@@ -174,11 +183,26 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dateDebut">Date début</label>
                                         <div class="cal-icon"><input value="" id="dateDebut" formControlName="dateDebutField"
                                              class="form-control datetimepicker" type="text" (change)="changeDateDebut($event)">
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="dateDebut">Date début</label>
+                                        <div class="row">
+                                            <div class="col">
+                                                <input matInput [matDatepicker]="picker" formControlName="dateDebutField"
+                                            class="form-control" type="text" (change)="changeDateDebut($event)">
+                                            </div>
+                                            <div class="col">
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
