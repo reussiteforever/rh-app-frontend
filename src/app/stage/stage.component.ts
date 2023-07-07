@@ -11,6 +11,8 @@ import { Fonction } from '../interfaces/fonction';
 import { TypeStage } from '../interfaces/typestage';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NotificationClass } from '../services/notification';
+import { TempusDominus } from '@eonasdan/tempus-dominus';
+
 
 @Component({
   selector: 'app-stage',
@@ -28,6 +30,8 @@ export class StageComponent implements OnInit {
   listePersonnes: Personne[] = [];
   listeFonctions: Fonction[] = [];
   listeTypeStage: TypeStage[] = [];
+
+  dateDebut = document.getElementsByClassName("datetimepicker");
 
   //initialization of Stage add form as a Reactive-Form
   addStageFormGroup = this.fb.group({
@@ -72,6 +76,7 @@ export class StageComponent implements OnInit {
     this.fonctionService.getAllFonctions().subscribe((response) => { this.listeFonctions = response; });
   }
 
+
   // Access formcontrols getter
   get dateDebutField(){return this.addStageFormGroup.get('dateDebutField');}
   get dateFinField(){return this.addStageFormGroup.get('dateFinField');}
@@ -82,11 +87,12 @@ export class StageComponent implements OnInit {
   get personneField(){return this.addStageFormGroup.get('personneField');}
 
 
-  changeFonction(e:any){this.fonctionField?.setValue(e.target.value, {onlySelf: true});}
+  changeFonction(e:any){this.fonctionField?.setValue(e.target.value, {onlySelf: true});console.log("Fonction :"+ e.target.value);}
   changeService(e:any){this.serviceField?.setValue(e.target.value, {onlySelf: true});}
   changePersonne(e:any){this.personneField?.setValue(e.target.value, {onlySelf: true});}
-  changeTypeStage(e:any){this.typeStageField?.setValue(e.target.value, {onlySelf: true});}
-  changeDateDebut(e:any){this.dateDebutField?.setValue(e.target.value, {onlySelf: true});}
+  changeTypeStage(e:any){this.typeStageField?.setValue(e.target.value, {onlySelf: true});console.log("date début :"+ e);}
+  changeDateDebut(e:any){this.dateDebutField?.setValue(e.target.value, {onlySelf: true}); console.log("date fin :"+e);
+  }
   changeDateFin(e:any){this.dateFinField?.setValue(e.target.value, {onlySelf: true});}
 
   
@@ -139,20 +145,22 @@ export class StageComponent implements OnInit {
       serviceId: this.addStageFormGroup.value.serviceField,
       personneId: this.addStageFormGroup.value.personneField
     };    
-    this.stageService.createStage(this.Stage).subscribe({
-      next: (value)=>{
-        //refresh the list of Stages
-        this.Stages = [value].concat(this.Stages);
-        console.log("Opération réussie!");
-        //reset form fields
-        this.addStageFormGroup.reset();
-      },
-      error: (e) => { console.log(e);
-        console.log(this.addStageFormGroup.value);
-        console.log(this.Stage.dateFin.value);
+    console.log(this.addStageFormGroup.value);
+    console.log(this.Stage.dateFin.value);
+    // this.stageService.createStage(this.Stage).subscribe({
+    //   next: (value)=>{
+    //     //refresh the list of Stages
+    //     this.Stages = [value].concat(this.Stages);
+    //     console.log("Opération réussie!");
+    //     //reset form fields
+    //     this.addStageFormGroup.reset();
+    //   },
+    //   error: (e) => { console.log(e);
+    //     console.log(this.addStageFormGroup.value);
+    //     console.log(this.Stage.dateFin.value);
         
-      }
-    });
+    //   }
+    // });
   }
 
   public handleUpdateStage(StageId:number): void {
