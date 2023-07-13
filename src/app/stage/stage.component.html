@@ -134,15 +134,6 @@
         </div>
         <!-- /Page Content -->
 
-        <!-- <mat-form-field>
-            <mat-label>Choose a date</mat-label>
-            <input matInput [matDatepicker]="picker">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field> -->
-        
-        
         <!-- Add Expense Modal -->
         <div id="add_expense" class="modal custom-modal fade" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -183,33 +174,18 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <!-- <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="dateDebut">Date début</label>
-                                        <div class="cal-icon"><input value="" id="dateDebut" formControlName="dateDebutField"
-                                             class="form-control datetimepicker" type="text" (change)="changeDateDebut($event)">
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dateDebut">Date début</label>
-                                        <div class="row">
-                                            <div class="col">
-                                                <input matInput [matDatepicker]="picker" formControlName="dateDebutField"
-                                            class="form-control" type="text" (change)="changeDateDebut($event)">
-                                            </div>
-                                            <div class="col">
-                                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker></mat-datepicker>
-                                            </div>
+                                        <div class="cal-icon"><input id="dateDebut" formControlName="dateDebutField"
+                                             class="form-control datetimepicker" type="date">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dateFin">Date fin</label>
-                                        <div class="cal-icon"><input value="" id="dateFin" formControlName="dateFinField" 
+                                        <div class="cal-icon"><input id="dateFin" formControlName="dateFinField" 
                                             class="form-control datetimepicker" type="text" (change)="changeDateFin($event)"></div>
                                     </div>
                                 </div>

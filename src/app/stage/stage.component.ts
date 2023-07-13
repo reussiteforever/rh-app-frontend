@@ -11,6 +11,7 @@ import { Fonction } from '../interfaces/fonction';
 import { TypeStage } from '../interfaces/typestage';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NotificationClass } from '../services/notification';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class StageComponent implements OnInit {
   listeFonctions: Fonction[] = [];
   listeTypeStage: TypeStage[] = [];
 
-  dateDebut = document.getElementsByClassName("datetimepicker");
+  dateDebut : any = Date.now();
 
   //initialization of Stage add form as a Reactive-Form
   addStageFormGroup = this.fb.group({
@@ -73,6 +74,7 @@ export class StageComponent implements OnInit {
     this.personneService.getAllPersonnes().subscribe((response) => { this.listePersonnes = response; });
     //Get list of fonctions
     this.fonctionService.getAllFonctions().subscribe((response) => { this.listeFonctions = response; });
+    
   }
 
 
@@ -89,12 +91,30 @@ export class StageComponent implements OnInit {
   changeFonction(e:any){this.fonctionField?.setValue(e.target.value, {onlySelf: true});console.log("Fonction :"+ e.target.value);}
   changeService(e:any){this.serviceField?.setValue(e.target.value, {onlySelf: true});}
   changePersonne(e:any){this.personneField?.setValue(e.target.value, {onlySelf: true});}
-  changeTypeStage(e:any){this.typeStageField?.setValue(e.target.value, {onlySelf: true});console.log("date début :"+ e);}
-  changeDateDebut(e:any){this.dateDebutField?.setValue(e.target.value, {onlySelf: true}); console.log("date fin :"+e);
+  changeTypeStage(e:any){this.typeStageField?.setValue(e.target.value, {onlySelf: true});console.log("date début :"+ e.target.value); console.log(this.dateDebut);
+  }
+  changeDateDebut(e:any){this.dateDebutField?.setValue(e.target.value, {onlySelf: true}); console.log("date fin :"+ e.target.value);
   }
   changeDateFin(e:any){this.dateFinField?.setValue(e.target.value, {onlySelf: true});}
 
-  
+
+  private formatDate(date: string | number | Date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+
+  setDateDebut() {
+    console.log(this.addStageFormGroup.value.dateDebutField);
+    console.log(new Date(this.dateDebut).toLocaleDateString());
+    this.addStageFormGroup.value.dateDebutField = this.dateDebut;
+    console.log(this.addStageFormGroup.value.dateDebutField);
+    console.log(new Date(this.dateDebut).toLocaleDateString());
+  }
 
   public handleGetAllStages(){
     this.stageService.getAllStages().subscribe({
@@ -144,6 +164,7 @@ export class StageComponent implements OnInit {
       serviceId: this.addStageFormGroup.value.serviceField,
       personneId: this.addStageFormGroup.value.personneField
     };    
+    this.setDateDebut()
     console.log(this.addStageFormGroup.value);
     console.log(this.Stage.dateFin.value);
     // this.stageService.createStage(this.Stage).subscribe({
